@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choice-Based Narrative Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choice-Based Narrative Game</h1>
+        <div id="story">
+            <p>Welcome to the Choice-Based Narrative Game!</p>
+            <p>You wake up in a strange land, not knowing how you got here...</p>
+            <p>What do you do?</p>
+            <button onclick="startGame()">Start</button>
+        </div>
+        <div id="choices" style="display: none;">
+            <p id="scenario"></p>
+            <button id="choice1" onclick="makeChoice(1)"></button>
+            <button id="choice2" onclick="makeChoice(2)"></button>
+        </div>
+    </div>
+
+    <script>
+        let currentScene = 0;
+        let inventory = [];
+        let health = 100;
+
+        const scenes = [
+            {
+                scenario: "You wake up in a strange land. You see a village to the west and a dark forest to the east. What will you do?",
+                choice1: "Go to the village",
+                choice2: "Enter the dark forest"
+            },
+            {
+                scenario: "As you approach the village, you hear cries for help. A villager is being attacked by bandits. What do you do?",
+                choice1: "Help the villager",
+                choice2: "Stay hidden"
+            },
+            {
+                scenario: "You decide to help the villager and successfully defeat the bandits. The villagers thank you and offer you a reward. What do you ask for?",
+                choice1: "Gold coins",
+                choice2: "Information about the forest"
+            },
+            {
+                scenario: "You enter the dark forest and find a hidden cave. Inside, you see a mysterious artifact guarded by traps. What will you do?",
+                choice1: "Attempt to disarm the traps and take the artifact",
+                choice2: "Leave the cave and explore further"
+            },
+            {
+                scenario: "You successfully disarm the traps and obtain the artifact. However, you hear a rumbling noise and realize the cave is collapsing. What is your next move?",
+                choice1: "Escape with the artifact",
+                choice2: "Look for another way out"
+            },
+            {
+                scenario: "You escape the collapsing cave but find yourself face to face with a legendary dragon. What do you do?",
+                choice1: "Fight the dragon",
+                choice2: "Try to negotiate with the dragon"
+            },
+            {
+                scenario: "You defeat the dragon and claim its treasure. What will you do with the treasure?",
+                choice1: "Use it to help the village",
+                choice2: "Keep it for yourself"
+            },
+            {
+                scenario: "Congratulations! You have completed your adventure. Would you like to play again?",
+                choice1: "Yes",
+                choice2: "No"
+            }
+        ];
+
+        function startGame() {
+            currentScene = 0;
+            inventory = [];
+            health = 100;
+            showScene();
+        }
+
+        function showScene() {
+            const scene = scenes[currentScene];
+            document.getElementById('story').style.display = 'none';
+            document.getElementById('choices').style.display = 'block';
+            document.getElementById('scenario').textContent = scene.scenario;
+            document.getElementById('choice1').textContent = scene.choice1;
+            document.getElementById('choice2').textContent = scene.choice2;
+        }
+
+        function makeChoice(choice) {
+            if (currentScene === 7) {
+                if (choice === 1) {
+                    startGame();
+                } else {
+                    alert("Thank you for playing!");
+                    return;
+                }
+            }
+
+            if (currentScene === 0 && choice === 2) {
+                // Special condition based on initial choice
+                currentScene = 3;
+            } else {
+                currentScene = currentScene * 2 + choice;
+            }
+
+            showScene();
+        }
+    </script>
+</body>
+</html>
